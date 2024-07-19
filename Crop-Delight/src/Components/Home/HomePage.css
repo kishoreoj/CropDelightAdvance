@@ -1,0 +1,123 @@
+/* src/Components/Home/HomePage.css */
+.home-container {
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #F7F4EF;
+    color: #342628;
+  }
+  
+  .header {
+    background-image: url('../../Images/tomatoes.jpeg'); /* Replace with actual path */
+    background-size: cover;
+    background-position: center;
+    padding: 150px 20px; /* Increased padding for a taller image */
+    min-height: 200px; /* Ensure a minimum height for the header */
+    color: #F7F4EF;
+    background-color: #342628; /* Add background color for overlay */
+    position: relative;
+  }
+  
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  }
+  
+  .header h1,
+  .header p {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .header h1 {
+    font-size: 3em; /* Increased font size for the title */
+    margin-bottom: 10px;
+    color: #FEAA00;
+  }
+  
+  .header p {
+    font-size: 1.5em;
+    color: #F7F4EF;
+  }
+  
+  .buttons {
+    margin: 20px 0;
+  }
+  
+  .buttons button {
+    background-color: #FEAA00;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+    color: #342628;
+  }
+  
+  .buttons button:hover {
+    background-color: #788402;
+  }
+  
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+  }
+  
+  .product-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+  }
+  
+  .product-card img {
+    max-width: 100%;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .product-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #788402;
+  }
+  
+  .product-card p {
+    font-size: 1em;
+    margin: 5px 0;
+  }
+  
+  /* Responsive grid */
+  @media (min-width: 1200px) {
+    .products {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (min-width: 900px) and (max-width: 1199px) {
+    .products {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 600px) and (max-width: 899px) {
+    .products {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 599px) {
+    .products {
+      grid-template-columns: 1fr;
+    }
+  }
+  

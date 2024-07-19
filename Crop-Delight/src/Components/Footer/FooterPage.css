@@ -1,0 +1,94 @@
+/* Basic styling for the footer */
+.footer {
+  margin-top: 15px;
+  background: linear-gradient(to right, #0a5752, #060b55); /* Gradient background */
+  color: white;
+  padding: 1px 0; /* Adjusted padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 1200px;
+  padding: 1px 0; /* Adjusted padding */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-section {
+  flex: 1 1 200px;
+  margin: 1px;
+  text-align: center;
+}
+
+.footer-section h3 {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-section ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  font-size: 14px;
+}
+
+.footer-section ul li:hover {
+  color: #d4a373;
+  transform: translateX(5px); /* Slight slide effect on hover */
+}
+
+.footer-section ul li::before {
+  content: "•"; /* Bullet before each list item */
+  color: #d4a373;
+  margin-right: 8px;
+}
+
+.footer-bottom {
+  width: 100%;
+  background-color: #2A1F1F;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 12px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.footer-bottom p {
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom p:hover {
+  color: #ffcc00;
+}
+
+.footer-social-icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.footer-social-icons a {
+  color: white;
+  margin: 0 10px;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.footer-social-icons a:hover {
+  color: #d4a373;
+}

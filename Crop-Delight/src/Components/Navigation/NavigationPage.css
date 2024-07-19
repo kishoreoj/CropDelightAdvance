@@ -1,0 +1,52 @@
+/* Basic styling for the navbar */
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 15px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: rgb(32, 2, 2);
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+.logo {
+  height: 80px;
+}
+
+.logout {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.navbar-right .nav-link:hover,
+.logout:hover {
+  opacity: 0.8;
+}
+
+/* Styling for the style bar beneath the navbar */
+.navbar-style-bar {
+  height: 5px;
+  background-color: #FF9800; /* Customize the color as per your preference */
+  box-shadow: 0 4px 2px -2px gray; /* Optional shadow for better look */
+}
