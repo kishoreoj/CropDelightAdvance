@@ -1,0 +1,73 @@
+.Login {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Login h2 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .Login form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .Login form div {
+    margin-bottom: 15px;
+  }
+  
+  .Login label {
+    font-weight: bold;
+  }
+  
+  .Login input[type="text"],
+  .Login input[type="password"] {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .Login button {
+    padding: 10px;
+    background-color: #FEAA00;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  .Login button:hover {
+    background-color: #0056b3;
+  }
+  
+  .Login p {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .register-link {
+    margin-top: 20px;
+  }
+  
+  .register-link p {
+    font-size: 14px;
+  }
+  
+  .register-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  

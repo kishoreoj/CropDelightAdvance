@@ -1,0 +1,48 @@
+/* Components/Farmer/Farmer.css */
+
+.content {
+  padding: 20px;
+  text-align: center;
+}
+
+.blocks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Two columns with flexible width */
+  gap: 30px; /* Space between grid items */
+  max-width: 1200px; /* Maximum width to ensure content doesn't stretch too wide */
+  margin: 0 auto; /* Center the grid container */
+}
+
+.block {
+  display: block; /* Ensures the Link component behaves like a block element */
+  background-color: #ffffff; /* White background for a clean look */
+  border: 1px solid #ddd;
+  border-radius: 12px; /* Slightly larger border-radius for a modern look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* More pronounced shadow for depth */
+  text-align: center;
+  padding: 20px; /* Increased padding for a more spacious feel */
+  transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+  text-decoration: none; /* Removes underline from link */
+}
+
+.block:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+.block img {
+  width: 100%; /* Make the image take the full width of the block */
+  height: 150px; /* Fixed height for uniformity */
+  object-fit: contain; /* Ensure the entire image is visible within the specified dimensions */
+  border-radius: 8px; /* Rounded corners for the image */
+}
+
+.block h2 {
+  font-size: 1.6em; /* Slightly larger font size for headings */
+  margin: 15px 0; /* Increased margin for better spacing */
+}
+
+.block p {
+  color: #333; /* Darker text color for better readability */
+  font-size: 1em; /* Slightly larger font size for better readability */
+}
