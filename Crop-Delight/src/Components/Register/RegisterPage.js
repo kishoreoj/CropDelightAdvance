@@ -158,7 +158,6 @@ function Register() {
     const handleSubmit = async (event) => {
       event.preventDefault();
     
-      // Populate FormData based on user input
       const formData = new FormData();
       formData.append('userType', userType);
       formData.append('username', username);
@@ -166,45 +165,40 @@ function Register() {
       formData.append('email', email);
       formData.append('phone', phone);
     
-      // Append additional fields based on userType
-      switch (userType) {
-        case 'Farmer':
-          formData.append('farmerName', farmerName);
-          formData.append('farmerId', farmerId);
-          formData.append('farmerLicense', farmerLicense);
-          formData.append('addressStreet', addresses.farmerAddress.street);
-          formData.append('addressCity', addresses.farmerAddress.city);
-          formData.append('addressProvince', addresses.farmerAddress.province);
-          formData.append('addressZipCode', addresses.farmerAddress.zipCode);
-          formData.append('sameAddress', sameAddress);
+      if (userType === 'Farmer') {
+        formData.append('farmerName', farmerName);
+        formData.append('farmerId', farmerId);
+        formData.append('farmerLicense', farmerLicense);
+        formData.append('addressStreet', addresses.farmerAddress.street);
+        formData.append('addressCity', addresses.farmerAddress.city);
+        formData.append('addressProvince', addresses.farmerAddress.province);
+        formData.append('addressZipCode', addresses.farmerAddress.zipCode);
+        formData.append('sameAddress', sameAddress);
     
-          if (sameAddress === 'no') {
-            formData.append('farmLocationStreet', addresses.farmLocationAddress.street);
-            formData.append('farmLocationCity', addresses.farmLocationAddress.city);
-            formData.append('farmLocationProvince', addresses.farmLocationAddress.province);
-            formData.append('farmLocationZipCode', addresses.farmLocationAddress.zipCode);
-          }
-          break;
+        if (!sameAddress) {
+          formData.append('farmLocationStreet', addresses.farmLocationAddress.street);
+          formData.append('farmLocationCity', addresses.farmLocationAddress.city);
+          formData.append('farmLocationProvince', addresses.farmLocationAddress.province);
+          formData.append('farmLocationZipCode', addresses.farmLocationAddress.zipCode);
+        }
+      } else if (userType === 'Worker') {
+        formData.append('workerName', workerName);
+        formData.append('skills', skills);
+        formData.append('addressStreet', addresses.communicationAddress.street);
+        formData.append('addressCity', addresses.communicationAddress.city);
+        formData.append('addressProvince', addresses.communicationAddress.province);
+        formData.append('addressZipCode', addresses.communicationAddress.zipCode);
+      } else if (userType === 'Customer') {
+        formData.append('customerName', customerName);
+        formData.append('addressStreet', addresses.shippingAddress.street);
+        formData.append('addressCity', addresses.shippingAddress.city);
+        formData.append('addressProvince', addresses.shippingAddress.province);
+        formData.append('addressZipCode', addresses.shippingAddress.zipCode);
+      }
     
-        case 'Worker':
-          formData.append('workerName', workerName);
-          formData.append('skills', skills);
-          formData.append('addressStreet', addresses.communicationAddress.street);
-          formData.append('addressCity', addresses.communicationAddress.city);
-          formData.append('addressProvince', addresses.communicationAddress.province);
-          formData.append('addressZipCode', addresses.communicationAddress.zipCode);
-          break;
-    
-        case 'Customer':
-          formData.append('customerName', customerName);
-          formData.append('addressStreet', addresses.shippingAddress.street);
-          formData.append('addressCity', addresses.shippingAddress.city);
-          formData.append('addressProvince', addresses.shippingAddress.province);
-          formData.append('addressZipCode', addresses.shippingAddress.zipCode);
-          break;
-    
-        default:
-          break;
+      // Log FormData entries
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
       }
     
       try {
@@ -221,7 +215,6 @@ function Register() {
           alert('Registration successful');
           navigate('/login'); // Redirect to login page
         } else {
-          // Handle server-side validation errors
           if (data.message.includes('Username already exists')) {
             setUsernameExistsError('Username already exists. Please choose a different one.');
           } else if (data.message.includes('Email already exists')) {
@@ -236,7 +229,6 @@ function Register() {
         setError('Failed to register. Please try again later.');
       }
     };
-    
     
     
 

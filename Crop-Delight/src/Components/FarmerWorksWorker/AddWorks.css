@@ -1,0 +1,100 @@
+/* AddWorks.css */
+.AddWorks {
+    padding: 40px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .AddWorks h2 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  
+  .AddWorks form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .AddWorks form div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .AddWorks form label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #495057;
+  }
+  
+  .AddWorks form input,
+  .AddWorks form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.2s;
+  }
+  
+  .AddWorks form input:focus,
+  .AddWorks form textarea:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+  }
+  
+  .AddWorks form input[type="text"],
+  .AddWorks form input[type="number"],
+  .AddWorks form textarea {
+    width: 100%;
+  }
+  
+  .AddWorks form input[type="number"] {
+    max-width: 200px;
+  }
+  
+  .AddWorks form textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  .AddWorks .success-message {
+    color: green;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .AddWorks .error-message {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .AddWorks button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: center;
+  }
+  
+  .AddWorks button:hover {
+    background-color: #0056b3;
+  }
+  

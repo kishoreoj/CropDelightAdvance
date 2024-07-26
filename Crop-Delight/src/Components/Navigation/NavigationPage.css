@@ -39,9 +39,43 @@
   border-radius: 4px;
 }
 
-.navbar-right .nav-link:hover,
-.logout:hover {
-  opacity: 0.8;
+.navbar-right {
+  flex: 2;
+  display: flex;
+  justify-content: flex-end; /* Aligns items to the right */
+}
+
+
+.navbar-right ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-right li {
+  margin: 0 15px; /* Space between links */
+}
+
+.navbar-right a, .navbar-right button {
+  text-decoration: none;
+  color: #333; /* Default text color */
+  font-size: 16px;
+  padding: 5px 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.navbar-right a:hover, .navbar-right button:hover {
+  color: #007bff; /* Highlight color */
+  background-color: rgba(0, 123, 255, 0.1); /* Light background on hover */
+  border-radius: 4px; /* Rounded corners for the background */
+}
+
+.navbar-right span {
+  font-weight: bold;
 }
 
 /* Styling for the style bar beneath the navbar */

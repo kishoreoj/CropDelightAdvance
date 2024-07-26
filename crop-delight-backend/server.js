@@ -5,9 +5,10 @@ const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
-
 const app = express();
 const PORT = 3000;
+
+
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -57,7 +58,7 @@ async function connectToMongoDB() {
 
 connectToMongoDB();
 
-// Function to write user to the database
+// Function to write to the database
 async function writeToDb(collectionName, data) {
   try {
     const database = client.db('crop_delight_db');
@@ -84,23 +85,14 @@ async function findItem(collectionName, query) {
   }
 }
 
-// Register endpoint
 app.post('/register', upload.single('farmerLicense'), async (req, res) => {
-  const {
-    username,
-    password,
-    userType,
-    email,
-    phone
-  } = req.body;
+  const { username, password, userType, email, phone } = req.body;
 
-  // Base required fields
   if (!username || !password || !userType || !email || !phone) {
     return res.status(400).json({ message: 'Required fields are missing' });
   }
 
   try {
-    // Check if username or email or phone already exists
     const existingUser = await findItem('users', { $or: [{ username }, { email }, { phone }] });
     if (existingUser) {
       const existingFields = [];
@@ -110,69 +102,69 @@ app.post('/register', upload.single('farmerLicense'), async (req, res) => {
       return res.status(400).json({ message: `${existingFields.join(', ')} already exists` });
     }
 
-    // Prepare data based on user type
     let userData = { username, password, userType, email, phone };
 
     switch (userType) {
       case 'Farmer':
-        const { farmerName, farmerId, sameAddress, addressStreet, addressCity, addressProvince, addressZipCode } = req.body;
+        const {
+          farmerName,
+          farmerId,
+          sameAddress,
+          addressStreet,
+          addressCity,
+          addressProvince,
+          addressZipCode,
+          farmLocationStreet,
+          farmLocationCity,
+          farmLocationProvince,
+          farmLocationZipCode
+        } = req.body;
         const farmerLicensePath = req.file ? req.file.path : '';
-
+        
         if (!farmerName || !farmerId || !addressStreet || !addressCity || !addressProvince || !addressZipCode) {
           return res.status(400).json({ message: 'Farmer details and address are required' });
         }
-
-        if (sameAddress === 'yes') {
-          // If sameAddress is true, copy farmerAddress to farmLocationAddress
-          userData = {
-            ...userData,
-            farmerName,
-            farmerId,
-            farmerLicense: farmerLicensePath,
-            farmerAddress: {
-              street: addressStreet,
-              city: addressCity,
-              province: addressProvince,
-              zipCode: addressZipCode
-            },
-            farmLocationAddress: {
-              street: addressStreet,
-              city: addressCity,
-              province: addressProvince,
-              zipCode: addressZipCode
-            }
-          };
-        } else if (sameAddress === 'no') {
-          // If sameAddress is false, use provided farmLocationAddress
-          const { farmLocationStreet, farmLocationCity, farmLocationProvince, farmLocationZipCode } = req.body;
-
-          if (!farmLocationStreet || !farmLocationCity || !farmLocationProvince || !farmLocationZipCode) {
-            return res.status(400).json({ message: 'Farm Location Address is required when Same as Farm Location is No' });
+        
+        // Log the request body for debugging
+        console.log('Received registration request:', req.body);
+        
+        // Convert sameAddress to boolean
+        const isSameAddress = sameAddress === 'yes';
+        
+        userData = {
+          ...userData,
+          farmerName,
+          farmerId,
+          farmerLicense: farmerLicensePath,
+          farmerAddress: {
+            street: addressStreet,
+            city: addressCity,
+            province: addressProvince,
+            zipCode: addressZipCode
+          },
+          farmLocationAddress: isSameAddress ? {
+            street: addressStreet,
+            city: addressCity,
+            province: addressProvince,
+            zipCode: addressZipCode
+          } : {
+            street: farmLocationStreet || '',
+            city: farmLocationCity || '',
+            province: farmLocationProvince || '',
+            zipCode: farmLocationZipCode || ''
           }
+        };
 
-          userData = {
-            ...userData,
-            farmerName,
-            farmerId,
-            farmerLicense: farmerLicensePath,
-            farmerAddress: {
-              street: addressStreet,
-              city: addressCity,
-              province: addressProvince,
-              zipCode: addressZipCode
-            },
-            farmLocationAddress: {
-              street: farmLocationStreet,
-              city: farmLocationCity,
-              province: farmLocationProvince,
-              zipCode: farmLocationZipCode
-            }
-          };
-        }
         break;
 
       case 'Customer':
-        const { customerName, addressStreet: shippingStreet, addressCity: shippingCity, addressProvince: shippingProvince, addressZipCode: shippingZipCode } = req.body;
+        const {
+          customerName,
+          addressStreet: shippingStreet,
+          addressCity: shippingCity,
+          addressProvince: shippingProvince,
+          addressZipCode: shippingZipCode
+        } = req.body;
 
         if (!customerName || !shippingStreet || !shippingCity || !shippingProvince || !shippingZipCode) {
           return res.status(400).json({ message: 'Customer name and shipping address are required' });
@@ -191,7 +183,14 @@ app.post('/register', upload.single('farmerLicense'), async (req, res) => {
         break;
 
       case 'Worker':
-        const { workerName, addressStreet: communicationStreet, addressCity: communicationCity, addressProvince: communicationProvince, addressZipCode: communicationZipCode, skills } = req.body;
+        const {
+          workerName,
+          addressStreet: communicationStreet,
+          addressCity: communicationCity,
+          addressProvince: communicationProvince,
+          addressZipCode: communicationZipCode,
+          skills
+        } = req.body;
 
         if (!workerName || !communicationStreet || !communicationCity || !communicationProvince || !communicationZipCode || !skills) {
           return res.status(400).json({ message: 'All Worker details are required' });
@@ -214,15 +213,20 @@ app.post('/register', upload.single('farmerLicense'), async (req, res) => {
         return res.status(400).json({ message: 'Invalid user type' });
     }
 
-    // Insert user data into database
+    // Log the final userData to be inserted
+    console.log('Final userData to insert:', userData);
+
     await writeToDb('users', userData);
     return res.status(201).json({ message: 'Registration successful' });
-
   } catch (error) {
     console.error('Error during registration:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+
+
 
 
 // Login endpoint
@@ -280,18 +284,98 @@ app.post('/product', upload.single('image'), async (req, res) => {
   }
 });
 
-// Fetch all products endpoint
 app.get('/products', async (req, res) => {
+  const { username } = req.query; // Assuming username is passed as query parameter
+
   try {
-    const database = client.db('crop_delight_db');
-    const collection = database.collection('products');
-    const products = await collection.find({}).toArray();
+    if (!username) {
+      return res.status(400).json({ message: 'Username is required' });
+    }
+
+    const products = await Product.find({ username });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'No products found for this user' });
+    }
+
     res.status(200).json(products);
   } catch (error) {
-    console.error("Error fetching products from the database", error);
+    console.error('Error fetching products:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+// Add Work endpoint
+app.post('/work/add', async (req, res) => {
+  const { username, workTitle, salary, hours, description } = req.body;
+
+  // Validate required fields
+  if (!username || !workTitle || !salary || !hours || !description) {
+    return res.status(400).json({ message: 'Required fields are missing' });
+  }
+
+  try {
+    // Fetch user details
+    const user = await findItem('users', { username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    console.log("User data:", user); // Log user data to debug
+
+    // Prepare work data
+    const workData = {
+      workTitle,
+      salary,
+      hours,
+      description,
+      username: user.username,
+      farmName: user.farmerName || '',  // Include farmerName
+      farmerAddress: user.farmerAddress || '',
+      farmLocation: user.farmLocationAddress || ''  // Include farmLocationAddress
+    };
+
+    console.log("Work data to insert:", workData); // Log work data to debug
+
+    // Insert work data into database
+    await writeToDb('work', workData);
+    return res.status(201).json({ message: 'Work added successfully' });
+  } catch (error) {
+    console.error('Error adding work:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+  app.get('/works', async (req, res) => {
+    try {
+      const database = client.db('crop_delight_db');// Replace 'yourdbname' with your actual DB name and 'work' with your collection name
+      const collection = database.collection('work');
+      const works = await collection.find({}).toArray();
+      res.status(200).json(works);
+    } catch (error) {
+      console.error('Error fetching works', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+// Order endpoint
+app.post('/orders', async (req, res) => {
+  const orderData = req.body;
+
+  try {
+    const result = await writeToDb('orders', orderData);
+    res.status(201).json({ orderId: result.insertedId });
+  } catch (error) {
+    console.error('Error saving order:', error);
+    res.status(500).json({ error: 'Failed to save order' });
+  }
+});
+
+
 
 // Start the server
 app.listen(PORT, (error) => {
