@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './AddProduct.css';
 
-
-// Higher-order component to pass navigate prop
-function withNavigate(Component) {
-  return props => <Component {...props} navigate={useNavigate()} />;
+// Higher-order component to pass navigate prop and user prop
+function withNavigateAndAuth(Component) {
+  return props => {
+    const auth = useAuth();
+    const navigate = useNavigate();
+    return <Component {...props} auth={auth} navigate={navigate} />;
+  };
 }
 
 class AddProduct extends Component {
@@ -67,10 +71,10 @@ class AddProduct extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const { category, productName, customCategory, customProductName, weight, quantity, price, image } = this.state;
-    const { navigate } = this.props;
-    const username = localStorage.getItem('username'); // Retrieve username from local storage
+    const { auth, navigate } = this.props;
+    const { user } = auth;
     
-    console.log('Retrieved username:', username); // Debugging line
+    console.log('Retrieved username:', user.username); // Debugging line
   
     // Validate for zero values
     if (weight <= 0 || quantity <= 0 || price <= 0) {
@@ -90,7 +94,7 @@ class AddProduct extends Component {
     formData.append('quantity', quantity);
     formData.append('price', price);
     formData.append('image', image);
-    formData.append('username', username);
+    formData.append('username', user.username); // Use username from auth context
   
     try {
       const response = await fetch('http://localhost:3000/product', {
@@ -228,4 +232,4 @@ class AddProduct extends Component {
   }
 }
 
-export default withNavigate(AddProduct);
+export default withNavigateAndAuth(AddProduct);

@@ -1,0 +1,101 @@
+/* Container for the ProductsView component */
+.Products {
+    padding: 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  /* Heading styles */
+  .head {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Grid container for products */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+  }
+  
+  /* Individual product item styling */
+  .product-item {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Product image styling */
+  .product-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+  
+  /* Product details styling */
+  .product-details {
+    padding: 15px;
+  }
+  
+  .product-details h3 {
+    font-size: 1.2em;
+    color: #333;
+    margin: 0 0 10px 0;
+  }
+  
+  .product-details p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .weight,
+  .quantity,
+  .price,
+  .category,
+  .username {
+    font-size: 0.9em;
+  }
+  
+  .edit-btn {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .edit-btn:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .edit-btn svg {
+    margin-right: 5px;
+  }
+  

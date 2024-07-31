@@ -11,6 +11,9 @@
   const session = require('express-session');
   const MongoStore = require('connect-mongo');
 
+  const { ObjectId } = require('mongodb');
+
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 
@@ -325,15 +328,89 @@ app.get('/profile', (req, res) => {
 // Fetch all products endpoint
 app.get('/products', async (req, res) => {
   try {
+    const { username } = req.query;
     const database = client.db('crop_delight_db');
     const collection = database.collection('products');
-    const products = await collection.find({}).toArray();
+    
+    // Filter products based on the username
+    const query = username ? { username } : {};
+    const products = await collection.find(query).toArray();
+    
     res.status(200).json(products);
   } catch (error) {
     console.error("Error fetching products from the database", error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+// Route to update a product
+app.put('/products/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { category, productName, weight, quantity, price, username } = req.body;
+    const image = req.file ? req.file.filename : null; // Handle image upload
+
+    const database = client.db('crop_delight_db');
+    const collection = database.collection('products');
+
+    // Define the filter for the product to update
+    const filter = { _id: new ObjectId(req.params.id) }; // Use ObjectId to query by ID
+    
+    // Define the update operation
+    const updateDoc = {
+      $set: {
+        category,
+        productName,
+        weight,
+        quantity,
+        price,
+        image,
+        username
+      }
+    };
+
+    // Perform the update operation
+    const result = await collection.updateOne(filter, updateDoc);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    const updatedProduct = await collection.findOne(filter);
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.error('Error updating product:', error);
+    res.status(500).json({ message: 'Error during product update' });
+  }
+});
+
+
+// backend route to delete a product
+// backend route to delete a product
+const deleteProduct = async (productId, productName) => {
+  const confirmDelete = window.confirm(`Are you sure you want to delete the product "${productName}"?`);
+  if (confirmDelete) {
+    try {
+      const response = await fetch(`http://localhost:3000/products/${productId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setProducts(products.filter(product => product._id !== productId));
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to delete product');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      setError('Error deleting product');
+    }
+  }
+};
+
+
+
+
 
   // Add Work endpoint
   app.post('/work/add', async (req, res) => {

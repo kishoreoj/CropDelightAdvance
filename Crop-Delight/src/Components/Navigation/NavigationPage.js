@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext'; // Adjust path as needed
+import { useAuth  } from '../../context/AuthContext'; // Adjust path as needed
 import Icon from '../../Images/logo.png'; // Make sure to update the path to your icon
 import './NavigationPage.css'; // Create and import a CSS file for your Navbar
 
 const Navigation = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();;
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -23,27 +23,25 @@ const Navigation = () => {
   }, [navigate, logout]);
 
   return (
-
-
-<div className="navbar-container">
-<nav className="navbar">
-  <div className="navbar-left">
-    <Link to="/home" className="nav-link">
-      <img src={Icon} alt="Crop Delight Logo" className="logo" />
-    </Link>
-  </div>
-  <div className="navbar-right">
-        <ul>
+    <div className="navbar-container">
+      <nav className="navbar">
+        <div className="navbar-left">
+          <Link to="/home" className="nav-link">
+            <img src={Icon} alt="Crop Delight Logo" className="logo" />
+          </Link>
+        </div>
+        <div className="navbar-right">
+          <ul>
             <li><Link to="/home">Home</Link></li>
             {user && (
               <>
                 <li><Link to={`/${user.userType}`}>{user.userType} Dashboard</Link></li>
                 {user.userType === 'Customer' && (
-                <>
-                  <li><Link to="/Cust-products">Your Products</Link></li>
-                  <li><Link to="/orders-summary">Order Summary</Link></li>
-                </>
-              )}
+                  <>
+                    <li><Link to="/Cust-products">Your Products</Link></li>
+                    <li><Link to="/orders-summary">Order Summary</Link></li>
+                  </>
+                )}
                 <li><span>Welcome, {user.username}</span></li>
                 <li><button onClick={handleLogout}>Logout</button></li>
               </>
@@ -55,12 +53,10 @@ const Navigation = () => {
               </>
             )}
           </ul>
-      </div>
+        </div>
       </nav>
       <div className="navbar-style-bar"></div>
     </div>
-
-
   );
 };
 

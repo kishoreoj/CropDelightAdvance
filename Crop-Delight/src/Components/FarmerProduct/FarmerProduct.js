@@ -5,7 +5,7 @@ import ProductsView from '../Products/ProductsView'; // Ensure the path is corre
 import YourProducts from '../FarmerProduct/YourProducts';
 import AddProduct from '../FarmerProduct/AddProduct';
 import DeleteProduct from '../FarmerProduct/DeleteProduct';
-import EditProduct from '../FarmerProduct/EditProduct';
+import './FarmerProduct.css'; // Import the CSS file
 
 const Customer = () => {
   const [view, setView] = useState('yourProducts');
@@ -13,25 +13,21 @@ const Customer = () => {
   return (
     <div>
       <Navigation />
-      <div className="button-group" style={{ marginBottom: '20px' }}>
-       
-        <button onClick={() => setView('yourProducts')}>Your Products</button>
-        <button onClick={() => setView('addProduct')}>Add Product</button>
-        <button onClick={() => setView('deleteProduct')}>Delete Product</button>
-        <button onClick={() => setView('editProduct')}>Edit Product</button>
-        <button onClick={() => setView('products')}>Products</button>
+      <div className="button-group">
+        <button className="your-products-btn" onClick={() => setView('yourProducts')}>Your Products</button>
+        <button className="add-product-btn" onClick={() => setView('addProduct')}>Add Product</button>
+        <button className="delete-product-btn" onClick={() => setView('deleteProduct')}>Manage Product</button>
+        <button className="products-btn" onClick={() => setView('products')}>Products</button>
       </div>
       <div className="content">
         {view === 'products' && <ProductsView />}
         {view === 'yourProducts' && <YourProducts />}
         {view === 'addProduct' && <AddProduct />}
         {view === 'deleteProduct' && <DeleteProduct />}
-        {view === 'editProduct' && <EditProduct />}
       </div>
       <Footer />
     </div>
   );
-
 };
 
 export default Customer;

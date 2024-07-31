@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext'; // Adjust path as needed
+import { useAuth } from '../../context/AuthContext'; // Adjust path as needed
 import './LoginPage.css';
 import Navigation from '../Navigation/NavigationPage';
 import Footer from '../Footer/FooterPage';
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +31,7 @@ const Login = () => {
       if (response.ok) {
         const responseData = await response.json();
         const { userType } = responseData;
-        login({ username, userType });
+        login({ username, userType }); // Set username and userType
 
         if (userType === 'Farmer') {
           navigate('/Farmer');

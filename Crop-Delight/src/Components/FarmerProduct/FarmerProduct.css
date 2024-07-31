@@ -1,0 +1,43 @@
+.button-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .button-group button {
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-group button:hover {
+    opacity: 0.8;
+  }
+  
+  .button-group .your-products-btn {
+    background-color: #4CAF50; /* Green */
+  }
+  
+  .button-group .add-product-btn {
+    background-color: #2196F3; /* Blue */
+  }
+  
+  .button-group .delete-product-btn {
+    background-color: #5f4909; /* Red */
+  }
+  
+  .button-group .edit-product-btn {
+    background-color: #FF9800; /* Orange */
+  }
+  
+  .button-group .products-btn {
+    background-color: #9C27B0; /* Purple */
+  }
+  
+  .content {
+    margin: 20px 0;
+  }
+  

@@ -3,18 +3,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import './FarmerProduct.css';
 import EditProduct from '../FarmerProduct/EditProduct'; // Adjust path if necessary
+import { useAuth } from '../../context/AuthContext'; // Adjust path as needed
 
-const ProductsView = ({ username }) => {
+const ProductsView = () => {
+  const { user } = useAuth(); // Retrieve user object from context
+  const username = user?.username; // Extract username from user object
+
   const [products, setProducts] = useState([]);
   const [error, setError] = useState('');
   const [editingProduct, setEditingProduct] = useState(null);
 
   const fetchProducts = useCallback(async () => {
+    if (!username) {
+      setError('Username is required to fetch products.');
+      return;
+    }
+
     try {
-      const response = await fetch(`http://localhost:3000/products?username=${username}`);
+      const response = await fetch(`http://localhost:3000/products?username=${encodeURIComponent(username)}`);
       if (response.ok) {
         const productsData = await response.json();
-        setProducts(productsData);
+        if (Array.isArray(productsData)) {
+          setProducts(productsData);
+          setError(''); // Clear previous errors if successful
+        } else {
+          setError('Unexpected data format received.');
+        }
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Failed to fetch products');
@@ -23,25 +37,31 @@ const ProductsView = ({ username }) => {
       console.error('Error fetching products:', error);
       setError('Error fetching products');
     }
-  }, [username]); // Use username as a dependency here
+  }, [username]);
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]); // Add fetchProducts here
+  }, [fetchProducts]);
 
   const editProduct = (product) => {
     setEditingProduct(product);
   };
 
+  const handleEditComplete = () => {
+    setEditingProduct(null);
+    fetchProducts(); // Refetch products after editing is complete
+  };
+
   return (
     <div>
       {editingProduct ? (
-        <EditProduct product={editingProduct} />
+        <EditProduct product={editingProduct} onEditComplete={handleEditComplete} />
       ) : (
         <div className="Products">
           <h2 className='head'>Product List</h2>
           {error && <p className="error-message">{error}</p>}
           <div className="product-grid">
+            {products.length === 0 && !error && <p>No products found.</p>}
             {products.map(product => (
               <div key={product._id} className="product-item">
                 <img src={`http://localhost:3000/${product.imagePath}`} alt={product.productName} />
